@@ -17,19 +17,25 @@ monsieurbiz_blog:
             meta_title: Meta title
             meta_description: Meta description
             meta_keywords: Meta keywords
+            meta_image: Meta image
             help:
+                description: Used in the display of lists
                 meta_title: If empty, the title will be used.
                 meta_description: If empty, the description will be used.
+                meta_image: "Ideal format: 1200 x 630 px"
         author:
             name: Name
             image: Image
     ui:
         menu_blog: Blog
+        tag: Tag
         tags: Tags
         new_tag: New tag
         edit_tag: Edit tag
         manage_your_blog_tags: Manage your blog tags
+        article: Article
         articles: Articles
+        case_study: Case study
         case_studies: Case studies
         new_article: New article
         edit_article: Edit article
@@ -39,6 +45,7 @@ monsieurbiz_blog:
         draft: Draft
         published: Published
         see_more_articles: See more articles
+        author: Author
         authors: Authors
         new_author: New author
         edit_author: Edit author
@@ -48,17 +55,18 @@ monsieurbiz_blog:
         new_case_study: New case study
         edit_case_study: Edit case study
         no_results_to_display: No results to display
+        show_in: "Show in"
+        show_article_in_shop: "Show article in shop"
+        cannot_show_article_in_shop: "You cannot show this article in the shop because it is not enabled, not published or associated to at least one channel."
+        preview_update_action_tooltip: "Click `Update` to save your changes before previewing the article."
+        preview_create_action_tooltip: "Click `Create` to save your changes before previewing the article."
+        actions:
+            preview: 'Preview'
+        banner:
+            preview: Preview
     ui_element:
-        case_studies_ui_element:
-            title: Case studies Element
-            description: Display a list of case studies.
-            fields:
-                title: Title
-                case_studies: Case studies
-                case_study: Case study
-                position: Position
         articles_selection_ui_element:
-            title: Articles selection Element
+            title: Articles selection
             description: Display a list of manually selected articles.
             fields:
                 title: Title
@@ -68,16 +76,22 @@ monsieurbiz_blog:
                 article: Article
                 position: Position
         articles_by_tags_ui_element:
-            title: Articles by tags Element
+            title: Articles by tags
             description: Display a list of articles by tags.
             fields:
                 title: Title
                 tags: Tags
+                type_filter: Type filter
                 limit: Limit
                 button_label: Button label
                 button_url: Button url
             help:
                 limit: The maximum number of articles to display
+            choices:
+                type_filter:
+                    all: All
+                    blog: Blog articles
+                    case_study: Case study
     articles:
         display:
             label: Display

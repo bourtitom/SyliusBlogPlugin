@@ -19,25 +19,25 @@ use MonsieurBiz\SyliusRichEditorPlugin\Attribute\AsUiElement;
 use MonsieurBiz\SyliusRichEditorPlugin\Attribute\TemplatesUiElement;
 use MonsieurBiz\SyliusRichEditorPlugin\Form\Type\LinkType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 #[AsUiElement(
     code: 'monsieurbiz_blog.articles_selection_ui_element',
-    icon: 'newspaper',
+    icon: 'tabler:news',
     title: 'monsieurbiz_blog.ui_element.articles_selection_ui_element.title',
     description: 'monsieurbiz_blog.ui_element.articles_selection_ui_element.description',
     uiElement: 'MonsieurBiz\SyliusBlogPlugin\UiElement\ArticlesSelectionUiElement',
     templates: new TemplatesUiElement(
-        adminRender: '@MonsieurBizSyliusBlogPlugin/Admin/UiElement/articles_selection.html.twig',
-        frontRender: '@MonsieurBizSyliusBlogPlugin/Shop/UiElement/articles_selection.html.twig',
+        adminRender: '@MonsieurBizSyliusBlogPlugin/admin/ui_element/articles_selection.html.twig',
+        frontRender: '@MonsieurBizSyliusBlogPlugin/shop/ui_element/articles_selection.html.twig',
     ),
     wireframe: 'articles-selection',
-    tags: ['blog', 'blog-articles', 'articles-selection'],
+    tags: ['blog', 'articles-selection'],
 )]
 class ArticlesSelectionUiElementType extends AbstractType
 {
@@ -54,19 +54,25 @@ class ArticlesSelectionUiElementType extends AbstractType
             ->add('display', ArticlesDisplayType::class, [
                 'label' => false, // already defined in the ArticlesDisplayType
             ])
-            ->add('articles', CollectionType::class, [
+            ->add('articles', LiveCollectionType::class, [
                 'label' => 'monsieurbiz_blog.ui_element.articles_selection_ui_element.fields.articles',
                 'entry_type' => ArticleSelectionElementType::class,
-                'prototype_name' => '__article_selection__',
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
                 'delete_empty' => true,
                 'attr' => [
-                    'class' => 'ui segment secondary collection--flex',
+                    'class' => 'row row-cols-1 row-cols-sm-2',
+                ],
+                'entry_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'class' => 'p-3 bg-gray-300 border rounded col',
+                    ],
                 ],
                 'constraints' => [
-                    new Assert\Count(['min' => 1]),
+                    new Assert\Count([
+                        'min' => 1,
+                    ]),
                 ],
             ])
             ->add('buttonLabel', TextType::class, [

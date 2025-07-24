@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusBlogPlugin\Form\Type;
 
+use MonsieurBiz\SyliusMediaManagerPlugin\Form\Type\ImageType;
 use MonsieurBiz\SyliusRichEditorPlugin\Form\Type\RichEditorType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -37,6 +38,7 @@ final class ArticleTranslationType extends AbstractResourceType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'monsieurbiz_blog.form.article.description',
+                'help' => 'monsieurbiz_blog.form.article.help.description',
             ])
             ->add('content', RichEditorType::class, [
                 'label' => 'monsieurbiz_blog.form.article.content',
@@ -55,6 +57,16 @@ final class ArticleTranslationType extends AbstractResourceType
                 'label' => 'monsieurbiz_blog.form.article.meta_keywords',
                 'required' => false,
             ])
+            ->add('metaImage', ImageType::class, [
+                'label' => 'monsieurbiz_blog.form.article.meta_image',
+                'help' => 'monsieurbiz_blog.form.article.help.meta_image',
+                'required' => false,
+            ])
         ;
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'monsieurbiz_blog_article_translation';
     }
 }

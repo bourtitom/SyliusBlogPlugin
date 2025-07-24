@@ -1,0 +1,26 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{# Set the `case_study` as article #}
+{% set article = resource %}
+
+{# We use plural only for case studies, else is blog #}
+{% set type = configuration.parameters.get('parameters')['type'] ?? constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE') %}
+{% set translatedType = configuration.parameters.get('parameters')['type'] ?? constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE') %}
+{% if translatedType == constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::CASE_STUDY_TYPE') %}
+  {% set translatedType = metadata.pluralName %}
+{% endif %}
+
+{# Set prefixes for Sylius hooks #}
+{% set prefixes = ['monsieurbiz.blog.' ~ type ~ '.show', 'monsieurbiz.blog.article.show'] %}
+
+{% block title %}
+{% apply spaceless %}
+  {{ article.title }} - {{ ('monsieurbiz_blog.ui.' ~ translatedType)|trans }} {{ parent() }}
+{% endapply %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4 mb-5">
+        {% hook prefixes with { translatedType } %}
+    </div>
+{% endblock %}

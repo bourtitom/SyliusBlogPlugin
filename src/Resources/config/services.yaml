@@ -3,10 +3,12 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            bool $enableCaseStudies: '%monsieurbiz_blog.enable_case_studies%'
 
     MonsieurBiz\SyliusBlogPlugin\:
         resource: '../../*'
-        exclude: '../../{Entity,Migrations}'
+        exclude: '../../{Component,Entity,Migrations}'
 
     # Add menu item in admin panel
     MonsieurBiz\SyliusBlogPlugin\EventListener\AdminMenuListener:
@@ -48,7 +50,32 @@ services:
         arguments:
             $fileLocator: '@file_locator'
             $defaultLocaleCode: '%locale%'
+            $publicDir: '%sylius_core.public_dir%'
 
     MonsieurBiz\SyliusBlogPlugin\Fixture\Factory\AuthorFixtureFactory:
         arguments:
             $fileLocator: '@file_locator'
+            $publicDir: '%sylius_core.public_dir%'
+
+    # Live components
+    sylius_admin.monsieurbiz_blog.twig.component.tag.form:
+        autoconfigure: false
+        class: MonsieurBiz\SyliusBlogPlugin\Component\TagFormComponent
+        arguments:
+            - '@monsieurbiz_blog.repository.tag'
+            - '@form.factory'
+            - '%monsieurbiz_blog.model.tag.class%'
+            - 'MonsieurBiz\SyliusBlogPlugin\Form\Type\TagType'
+        tags:
+            - { name: 'sylius.live_component.admin', key: 'sylius_admin:monsieurbiz_blog:tag:form' }
+
+    sylius_admin.monsieurbiz_blog.twig.component.article.form:
+        autoconfigure: false
+        class: MonsieurBiz\SyliusBlogPlugin\Component\ArticleFormComponent
+        arguments:
+            - '@monsieurbiz_blog.repository.article'
+            - '@form.factory'
+            - '%monsieurbiz_blog.model.article.class%'
+            - 'MonsieurBiz\SyliusBlogPlugin\Form\Type\ArticleType'
+        tags:
+            - { name: 'sylius.live_component.admin', key: 'sylius_admin:monsieurbiz_blog:article:form' }

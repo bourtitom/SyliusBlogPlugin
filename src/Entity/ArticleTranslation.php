@@ -20,21 +20,23 @@ class ArticleTranslation extends AbstractTranslation implements ArticleTranslati
 {
     use TimestampableTrait;
 
-    protected ?int $id;
+    protected ?int $id = null;
 
     protected ?string $title = null;
 
-    protected ?string $slug;
+    protected ?string $slug = null;
 
-    protected ?string $description;
+    protected ?string $description = null;
 
-    protected ?string $content;
+    protected ?string $content = null;
 
     protected ?string $metaTitle = null;
 
     protected ?string $metaDescription = null;
 
     protected ?string $metaKeywords = null;
+
+    protected ?string $metaImage = null;
 
     public function getId(): ?int
     {
@@ -109,5 +111,15 @@ class ArticleTranslation extends AbstractTranslation implements ArticleTranslati
     public function setMetaKeywords(?string $metaKeywords): void
     {
         $this->metaKeywords = $metaKeywords;
+    }
+
+    public function getMetaImage(): ?string
+    {
+        return $this->metaImage;
+    }
+
+    public function setMetaImage(?string $metaImage): void
+    {
+        $this->metaImage = $metaImage;
     }
 }

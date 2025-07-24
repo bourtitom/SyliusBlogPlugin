@@ -17,19 +17,25 @@ monsieurbiz_blog:
             meta_title: Meta title
             meta_description: Meta description
             meta_keywords: Meta keywords
+            meta_image: Meta image
             help:
+                description: Utilisée dans l'affichage des listes
                 meta_title: Si vide, le titre sera utilisé.
                 meta_description: Si vide, la description sera utilisée.
+                meta_image: "Format idéal : 1200 x 630 px"
         author:
             name: Nom
             image: Image
     ui:
         menu_blog: Blog
+        tag: Tag
         tags: Tags
         new_tag: Nouveau tag
         edit_tag: Modifier le tag
         manage_your_blog_tags: Gérer vos tags de blog
+        article: Article
         articles: Articles
+        case_study: Étude de cas
         case_studies: Études de cas
         new_article: Nouvel article
         edit_article: Modifier l'article
@@ -39,6 +45,7 @@ monsieurbiz_blog:
         draft: Brouillon
         published: Publié
         see_more_articles: Voir plus d'articles
+        author: Auteur
         authors: Auteurs
         new_author: Nouvel auteur
         edit_author: Modifier l'auteur
@@ -48,17 +55,18 @@ monsieurbiz_blog:
         new_case_study: Nouvelle étude de cas
         edit_case_study: Modifier l'étude de cas
         no_results_to_display: Aucun résultat à afficher
+        show_in: "Afficher dans"
+        show_article_in_shop: "Afficher l'article dans la boutique"
+        cannot_show_article_in_shop: "Vous ne pouvez pas afficher cet article dans la boutique car il n'est pas activé, publié ou associé à au moins un canal."
+        preview_update_action_tooltip: "Cliquez sur `Mise à jour` pour enregistrer vos modifications avant de prévisualiser l'article."
+        preview_create_action_tooltip: "Cliquez sur `Créer` pour enregistrer vos modifications avant de prévisualiser l'article."
+        actions:
+            preview: 'Prévisualiser'
+        banner:
+            preview: 'Prévisualisation'
     ui_element:
-        case_studies_ui_element:
-            title: Lame Études de cas
-            description: Affiche une liste d'études de cas.
-            fields:
-                title: Titre
-                case_studies: Études de cas
-                case_study: Étude de cas
-                position: Position
         articles_selection_ui_element:
-            title: Lame Sélection d'articles
+            title: Sélection d'articles
             description: Affiche une liste d'articles sélectionné manuellement.
             fields:
                 title: Titre
@@ -68,16 +76,22 @@ monsieurbiz_blog:
                 article: Article
                 position: Position
         articles_by_tags_ui_element:
-            title: Lame Articles par tags
+            title: Articles par tags
             description: Affiche une liste d'articles par tags.
             fields:
                 title: Titre
                 tags: Tags
+                type_filter: Filtre par type
                 limit: Limite
                 button_label: Libellé du bouton
                 button_url: URL du bouton
             help:
                 limit: Le nombre maximum d'articles à afficher
+            choices:
+                type_filter:
+                    all: Tous
+                    blog: Articles de blog
+                    case_study: Études de cas
     articles:
         display:
             label: Affichage

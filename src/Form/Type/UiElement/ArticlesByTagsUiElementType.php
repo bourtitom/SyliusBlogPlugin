@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusBlogPlugin\Form\Type\UiElement;
 
+use MonsieurBiz\SyliusBlogPlugin\Entity\ArticleInterface;
 use MonsieurBiz\SyliusBlogPlugin\Entity\Tag;
 use MonsieurBiz\SyliusBlogPlugin\Form\Type\ArticlesDisplayType;
 use MonsieurBiz\SyliusBlogPlugin\Repository\TagRepositoryInterface;
@@ -23,6 +24,7 @@ use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,22 +32,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[AsUiElement(
     code: 'monsieurbiz_blog.articles_by_tags_ui_element',
-    icon: 'tags',
+    icon: 'tabler:tags',
     title: 'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.title',
     description: 'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.description',
     uiElement: 'MonsieurBiz\SyliusBlogPlugin\UiElement\ArticlesByTagsUiElement',
     templates: new TemplatesUiElement(
-        adminRender: '@MonsieurBizSyliusBlogPlugin/Admin/UiElement/articles_by_tags.html.twig',
-        frontRender: '@MonsieurBizSyliusBlogPlugin/Shop/UiElement/articles_by_tags.html.twig',
+        adminRender: '@MonsieurBizSyliusBlogPlugin/admin/ui_element/articles_by_tags.html.twig',
+        frontRender: '@MonsieurBizSyliusBlogPlugin/shop/ui_element/articles_by_tags.html.twig',
     ),
     wireframe: 'articles-by-tags',
-    tags: ['blog', 'blog-articles', 'articles-by-tags'],
+    tags: ['blog', 'articles-by-tags'],
 )]
 class ArticlesByTagsUiElementType extends AbstractType
 {
     public function __construct(
         private readonly TagRepositoryInterface $tagRepository,
         private readonly LocaleContextInterface $localeContext,
+        private bool $enableCaseStudies,
     ) {
     }
 
@@ -75,6 +78,23 @@ class ArticlesByTagsUiElementType extends AbstractType
                 },
                 'multiple' => true,
             ])
+        ;
+
+        if ($this->enableCaseStudies) {
+            $builder
+                ->add('typeFilter', ChoiceType::class, [
+                    'label' => 'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.fields.type_filter',
+                    'required' => true,
+                    'choices' => [
+                        'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.choices.type_filter.all' => null,
+                        'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.choices.type_filter.blog' => ArticleInterface::BLOG_TYPE,
+                        'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.choices.type_filter.case_study' => ArticleInterface::CASE_STUDY_TYPE,
+                    ],
+                ])
+            ;
+        }
+
+        $builder
             ->add('limit', IntegerType::class, [
                 'label' => 'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.fields.limit',
                 'help' => 'monsieurbiz_blog.ui_element.articles_by_tags_ui_element.help.limit',

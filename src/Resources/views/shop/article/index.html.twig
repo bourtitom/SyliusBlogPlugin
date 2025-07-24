@@ -1,0 +1,30 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{# Manage tag if set #}
+{% set tag = configuration.parameters.get('parameters')['tag'] ?? null %}
+
+{# We use plural only for case studies, else is blog #}
+{% set type = configuration.parameters.get('parameters')['type'] ?? constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE') %}
+{% set translatedType = configuration.parameters.get('parameters')['type'] ?? constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE') %}
+{% if translatedType == constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::CASE_STUDY_TYPE') %}
+    {% set translatedType = metadata.pluralName %}
+{% endif %}
+
+{# Set prefixes for Sylius hooks #}
+{% set prefixes = ['monsieurbiz.blog.' ~ type ~ '.index', 'monsieurbiz.blog.article.index'] %}
+
+{% block title %}
+{% apply spaceless %}
+    {% if tag is defined and tag is not null %}
+        {{ tag.name }} - {{ ('monsieurbiz_blog.ui.' ~ translatedType)|trans }} {{ parent() }}
+    {% else %}
+        {{ ('monsieurbiz_blog.ui.' ~ translatedType)|trans }} {{ parent() }}
+    {% endif %}
+{% endapply %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4 mb-5">
+        {% hook prefixes with { tag, type, translatedType, metadata, configuration, resources } %}
+    </div>
+{% endblock %}

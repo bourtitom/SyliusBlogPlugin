@@ -1,0 +1,50 @@
+{% if articles|length > 0 %}
+    {% set display = element.display.display %}
+    <div class="container-fluid my-4">
+        <div class="row align-items-md-center">
+            <div class="col-md-8">
+                {% if element.title|default('') is not empty %}
+                    <h1 class="display-4">
+                        {{ element.title }}
+                    </h1>
+                {% endif %}
+            </div>
+            <div class="col-md-4 text-md-end">
+                {% if element.buttonUrl|default('') is not empty and element.buttonLabel|default('') is not empty %}
+                    <a class="btn btn-primary" href="{{ element.buttonUrl }}">
+                        {{ element.buttonLabel }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if display == constant('MonsieurBiz\\SyliusBlogPlugin\\Form\\Type\\ArticlesDisplayType::MULTIPLE_WITH_IMAGE') %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for article in articles %}
+                {% set type = article.type|default(constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE')) %}
+                <div class="col">
+                    {% include '@MonsieurBizSyliusBlogPlugin/shop/' ~ type ~'/card.html.twig' with { class: 'h-100' } %}
+                </div>
+            {% endfor %}
+        </div>
+    {% elseif display == constant('MonsieurBiz\\SyliusBlogPlugin\\Form\\Type\\ArticlesDisplayType::MULTIPLE_WITHOUT_IMAGE') %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for article in articles %}
+                {% set type = article.type|default(constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE')) %}
+                <div class="col">
+                    {% include '@MonsieurBizSyliusBlogPlugin/shop/' ~ type ~'/card.html.twig' with { class: 'h-100', without_image: true } %}
+                </div>
+            {% endfor %}
+        </div>
+    {% elseif display == constant('MonsieurBiz\\SyliusBlogPlugin\\Form\\Type\\ArticlesDisplayType::SINGLE') %}
+        <div class="row justify-content-center">
+            {% for article in articles %}
+                {% set type = article.type|default(constant('MonsieurBiz\\SyliusBlogPlugin\\Entity\\ArticleInterface::BLOG_TYPE')) %}
+                <div class="col-12{% if not loop.last %} mb-4{% endif %}">
+                    {% include '@MonsieurBizSyliusBlogPlugin/shop/' ~ type ~'/single_card.html.twig' with { class: 'h-100' } %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endif %}
