@@ -60,7 +60,6 @@ class ArticlesSelectionUiElementType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
-
                 'button_add_options' => [
                     'label' => 'sylius.ui.add',
                 ],
